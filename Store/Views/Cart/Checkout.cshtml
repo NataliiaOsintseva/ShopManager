@@ -1,0 +1,37 @@
+﻿@model Store.Domain.Entities.Shipment
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<h2>Checkout page</h2>
+<p2>Enter your shipment details</p2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <h3>Deliver to</h3>
+    <div class="form-group">
+        <label>Your name:</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
+    <h3>Delivery address</h3>
+    foreach(var prop in ViewData.ModelMetadata.Properties)
+    {
+        if(prop.PropertyName != "Name" && prop.PropertyName != "Discount")
+        {
+            <div class="form-group">
+                <label>@(prop.DisplayName ?? prop.PropertyName)</label>
+                @Html.TextBox(prop.PropertyName, null, new {@class = "form-control" })
+            </div>
+        }
+    }
+
+    <h3>Do you have discount cart?</h3>
+    <div class="checkbox">
+        <label>@Html.EditorFor(x => x.Discount) I am discount-holder</label>       
+    </div>
+    <div class="text-center">
+        <input class="btn btn-primary" value="Complete order" type="submit"/>
+    </div>
+}
